@@ -4,9 +4,9 @@ __author__ = "Maxime Appolonia"
 __license__ = "GPL"
 
 """
-    NRPE check_mail.py
-    This check alerts on the presence of email in a specified folder (/var/lib/nrpe_check_mail/incoming/).
-    The script maintains a json file (/var/lib/nrpe_check_mail/status.json) which contains the IP addresses of
+    NRPE check_urgentmail.py
+    This check alerts on the presence of email in a specified folder (/var/lib/nrpe_check_urgentmail/incoming/).
+    The script maintains a json file (/var/lib/nrpe_check_urgentmail/status.json) which contains the IP addresses of
     The nagios servers which have been informed of the presence of the email.
     This permits to fire the alert only once per nagios server.
     The emails and their associated information stored in the status.json file are clean 24h after their detection.  
@@ -22,10 +22,10 @@ import datetime
 from email.header import decode_header
 
 
-VAR_FOLDER = "/var/lib/nrpe_check_mail"
+VAR_FOLDER = "/var/lib/nrpe_check_urgentmail"
 INCOMING_MAIL_FOLDER = os.path.join(VAR_FOLDER, "incoming")
 STATUS_FILE_PATH = os.path.join(VAR_FOLDER, "status.json")
-ALERT_TITLE = "Emergency mail received ! "
+ALERT_TITLE = "Urgent mail received ! "
 ALERT_DURATION_MINUTES = 05
 DELETE_FILE_AFTER_MINUTES = 10
 
