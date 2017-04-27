@@ -21,6 +21,16 @@ import hashlib
 import datetime
 from email.header import decode_header
 
+
+VAR_FOLDER = "/var/lib/nrpe_check_mail"
+INCOMING_MAIL_FOLDER = os.path.join(VAR_FOLDER, "incoming")
+STATUS_FILE_PATH = os.path.join(VAR_FOLDER, "status.json")
+ALERT_TITLE = "Emergency mail received ! "
+ALERT_DURATION_MINUTES = 05
+DELETE_FILE_AFTER_MINUTES = 10
+
+
+
 def bin_addr_to_ipv4(bin_addr):
     """
     Converts an ipv4 given as a binary (hex format) from /proc/net/tcp to an ipv4 in a normalised format
@@ -107,13 +117,6 @@ def get_nrpe_client_ip(pid):
 
 if __name__ == "__main__":
         try:
-
-                VAR_FOLDER = "/var/lib/nrpe_check_mail"
-                INCOMING_MAIL_FOLDER = os.path.join(VAR_FOLDER, "incoming")
-                STATUS_FILE_PATH = os.path.join(VAR_FOLDER, "status.json")
-                ALERT_TITLE = "Emergency mail received on LU-CIX OTRS"
-                ALERT_DURATION_MINUTES = 40
-                DELETE_FILE_AFTER_MINUTES = 60
 
                 exit_status = 0
                 exit_message = ""
@@ -205,7 +208,7 @@ if __name__ == "__main__":
                         date_first_seen = datetime.datetime.strptime(status[filehash]["date_first_seen"], "%Y-%m-%d %H:%M:%S")
                         if ( datetime.datetime.now() - date_first_seen).total_seconds() > DELETE_FILE_AFTER_MINUTES * 60:
                                 fullpath = os.path.join(INCOMING_MAIL_FOLDER, f)
-                                print("Delete file {} with hash {}".format(fullpath, filehash))
+                                #print("Delete file {} with hash {}".format(fullpath, filehash))
                                 try:
                                         os.remove(fullpath)                                    
                                 except Exception, e:
