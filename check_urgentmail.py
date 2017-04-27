@@ -116,11 +116,10 @@ def get_nrpe_client_ip(pid):
 
 
 if __name__ == "__main__":
+        exit_status = 0
+        exit_message = ""
+        
         try:
-
-                exit_status = 0
-                exit_message = ""
-
                 #
                 # Tests path are accessible / writeable (these tests may exit immediately in case of failure)
                 #
@@ -232,7 +231,8 @@ if __name__ == "__main__":
                 print(exit_message[0:1000])
                 sys.exit(exit_status)
         except SystemExit, e:
-                pass # we are autorized to use sys.exit !
+                sys.exit(exit_status)
+                # sys.exit() raise an exception but we want to catch all exceptions except sys.exit() !
         except:
                 print("Exception while running check\n")
                 print(traceback.format_exc()[0:1000]) # truncate to be sure nagios will handle it even if long output
